@@ -9,10 +9,10 @@ class ChoiceModelAdmin(admin.TabularInline):
 
 class QuestionModelAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {"fields": ["question_text"]}),
+        (None, {"fields": ["question_text","slug"]}),
         ("Date information", {"fields": ["pub_date"]}),
     ]
-
+    prepopulated_fields = {"slug": ("question_text",)}
     list_display = ['pub_date', 'question_text',]
     list_filter = ['pub_date']
     inlines = [ChoiceModelAdmin]
