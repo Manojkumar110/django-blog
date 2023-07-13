@@ -5,7 +5,7 @@ import datetime
 # Create your models here.
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
-    slug = models.SlugField(max_length = 200, default='')
+    slug = models.SlugField(max_length = 200, unique=True)
     pub_date = models.DateTimeField()
 
     def __str__(self):

@@ -8,12 +8,12 @@ from django.views import generic
 
 # Create your views here.
 
-def detail(request, pk):
+def detail(request, slug):
     try:
-        question = Question.objects.get(pk=pk)
+        question = Question.objects.get(slug=slug)
     except Question.DoesNotExist:
         raise Http404(' Question Does Not exist')
-    question = get_object_or_404(Question, pk=pk)
+    question = get_object_or_404(Question, slug=slug)
     return render(request, "polls/detail.html", {'question':question})
 
 def vote(request, question_id):
