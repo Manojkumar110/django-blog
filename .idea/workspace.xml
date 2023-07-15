@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b5a99f36-be43-4ea7-92e5-c2bd8a06f5d3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/blog/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/blog/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/blog/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogirls/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogirls/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogirls/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogirls/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogirls/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogirls/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogirls/migrations/0002_alter_category_description_alter_tags_description.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogirls/migrations/0003_alter_category_description_alter_category_image_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogirls/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/djangogirls/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/djangogirls/templates/djangogirls/post_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/djangogirls/templates/djangogirls/post_edit.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2SYnvRvdx2hBw17Hb2hJ1P6rqNH" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/Manoj/PycharmProjects/Project/blog"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b5a99f36-be43-4ea7-92e5-c2bd8a06f5d3" name="Changes" comment="" />
+      <created>1689332611569</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1689332611569</updated>
+    </task>
+    <servers />
+  </component>
+</project>

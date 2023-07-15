@@ -1,8 +1,9 @@
-# from django.http import HttpResponse
-from djangogirls.models import Post
+from django.http import HttpResponse
+from djangogirls.models import Post, User
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
-from djangogirls.forms import PostForm
+from djangogirls.forms import PostForm, RegisterForm, LoginForm
+from django.contrib.auth import login, authenticate
 from django.shortcuts import redirect
 # Create your views here.
 
@@ -40,3 +41,31 @@ def post_edit(request, slug):
     else:
         form = PostForm(instance=post)
         return render(request, 'djangogirls/post_edit.html', {'form': form})
+
+def register(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            print('Form valid')
+    else:
+        form = RegisterForm()
+    return render(request, 'djangogirls/register.html', {'form':form})
+
+def login_page(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data['email'])
+            print(form.cleaned_data['password1'])
+            user = authenticate(
+                email=form.cleaned_data['email'],
+                password=form.cleaned_data['password1'],
+            )
+            print('user',user)
+            if user is not None:
+                login(request, user)
+        return render(request, 'djangogirls/login.html', {'form':form})
+    else:
+        form = LoginForm()
+        return render(request, 'djangogirls/login.html', {'form':form})
