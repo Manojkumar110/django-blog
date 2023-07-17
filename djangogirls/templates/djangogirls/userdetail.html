@@ -1,0 +1,21 @@
+{% extends 'djangogirls/base.html' %}
+{% load static %}   
+{% block content %}
+        <article class="post">
+            {% if user.user_profile %}
+                <img src="{{user.user_profile.url}}" alt="">
+            {% endif %}
+            <a href="{% url 'updateprofile' pk=user.pk %}"><i class="bi bi-pencil-square"></i></a>
+            <p>Name : {{user.first_name}}</p>
+            <p>Email            : {{user.email}}</p>
+            <p>Gender           : {{user.gender}}</p>
+            <p>DOB              : {{user.dob}}</p>
+            <p>Phone number     : {{user.phone_no}}</p>
+            <p>City             : {{user.city}}</p>
+            <p>State            : {{user.state}}</p>
+            <p>Zip Code         : {{user.zip_code}}</p>
+            <p>Country          : {{user.country}}</p>
+
+        </article>
+{% endblock %}
+

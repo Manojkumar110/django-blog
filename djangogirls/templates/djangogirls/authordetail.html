@@ -1,0 +1,17 @@
+{% extends 'djangogirls/base.html' %}
+{% block content %}
+<h2>Author Detail</h2>
+<img src="{{request.user.user_profile.url}}" alt="pic">
+<p>Name : {{request.user.first_name}}</p>
+<p>Email : {{request.user}}</p>
+<p>Gender : {{request.user.gender}}</p>
+<p>DOB : {{request.user.dob}}</p>
+<p>Phone Number : {{request.user.phone_no}}</p>
+<p>City : {{request.user.city}}</p>
+<p>State : {{request.user.state}}</p>
+<p>Zip Code : {{request.user.zip_code}}</p>
+<p>Zip Code : {{request.user.country}}</p>
+{% endblock %}
+
+ ['', 'user_profile', '', '', 
+ 'dob', '', '', '', '', '']

@@ -3,6 +3,7 @@
 {% block content %}
     {% for post in posts %}
         <article class="post">
+            <img src="{{post.image.url}}" alt="pic">
             <time class="date">
                 {{ post.published_date }}
             </time>

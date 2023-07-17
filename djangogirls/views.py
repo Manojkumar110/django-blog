@@ -1,29 +1,73 @@
+import csv
 from django.http import HttpResponse
-from djangogirls.models import Post, User
+from djangogirls.models import Post, User, Tags, Comment
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
-from djangogirls.forms import PostForm, RegisterForm, LoginForm
+from djangogirls.forms import PostForm, RegisterForm, LoginForm, UserForm, CommentForm
 from django.contrib.auth import login, authenticate
 from django.shortcuts import redirect
 # Create your views here.
 
 def post_list(request):
-    posts = Post.objects.filter(published_date__lte = timezone.now()).order_by('-published_date')
-    return render(request, 'djangogirls/post_list.html', {'posts':posts})
+    # posts = Post.objects.filter(published_date__lte = timezone.now()).order_by('-published_date')
+    posts = Post.objects.all().order_by('-published_date')
+    tags = Tags.objects.all() 
+    return render(request, 'djangogirls/post_list.html', {'posts':posts, 'tags':tags})
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    return render(request, 'djangogirls/post_detail.html', {'post': post})
+    # comments = Comment.objects.filter(active=False)
+    comments = post.comments.filter(active=False)
+    print('comments manoj', comments)
+    if request.method == 'POST':
+        comment_form  = CommentForm(request.POST)
+        if comment_form.is_valid():
+            # Assign the current post to the comment
+            new_comment = comment_form.save(commit=False)
+            print('new_comment',new_comment)
+            # Save the comment to the database
+            new_comment.post = post
+            new_comment.save()
+            return render(request, 'djangogirls/post_detail.html', {'post': post, 'comment_form':comment_form, 'comments':comments})
+    else:
+        comment_form = CommentForm()
+        return render(request, 'djangogirls/post_detail.html', {'post': post, 'comment_form':comment_form, 'comments':comments})
+
+
+# ===================================================================
+# def post_detail(request, slug):
+#     post = get_object_or_404(Post, slug=slug)
+#     comments = post.comments.filter(active=False)
+#     # comments = post.comments.filter(active=True)
+#     for i in comments:
+#         print(i.name)
+#         print(i.body)
+#     if request.method == 'POST':
+#         comment_form  = CommentForm(request.POST)
+#         if comment_form.is_valid():
+#             # Assign the current post to the comment
+#             new_comment = comment_form.save(commit=False)
+#             print('new_comment',new_comment)
+#             # Save the comment to the database
+#             new_comment.post = post
+#             new_comment.save()
+#             return render(request, 'djangogirls/post_detail.html', {'post': post, 'comment_form':comment_form, 'comments':comments})
+#     else:
+#         comment_form = CommentForm()
+#         return render(request, 'djangogirls/post_detail.html', {'post': post, 'comment_form':comment_form, 'comments':comments})
+# ===================================================================
+
+
 
 def post_new(request):
     if request.method == 'POST':
-        form =  PostForm(request.POST)
+        form =  PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('post_list')
     else:
         form = PostForm()
         return render(request, 'djangogirls/post_edit.html', {'form': form})
@@ -31,7 +75,7 @@ def post_new(request):
 def post_edit(request, slug):
     post = get_object_or_404(Post, slug=slug)
     if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, request.FILES,instance=post)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
@@ -69,3 +113,36 @@ def login_page(request):
     else:
         form = LoginForm()
         return render(request, 'djangogirls/login.html', {'form':form})
+
+def profile_view(request):
+    user = request.user
+    return render(request, 'djangogirls/userdetail.html', {'user':user})
+
+
+def profile_update(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if request.method == "POST":
+        form = UserForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.author = request.user
+            user.save()
+            return redirect('userprofileview')
+    else:
+        form = UserForm(instance=request.user)
+        return render(request, 'djangogirls/updateprofile.html', {'form':form})
+
+def export(request):
+    response = HttpResponse(content_type='text/csv')
+    writer = csv.writer(response)
+    writer.writerow(['first_name', 'user_profile', 'email', 'gender', 'dob', 'phone_no', 'city', 'state', 'zip_code', 'country'])
+    for user in User.objects.all().values_list('first_name', 'user_profile', 'email', 'gender', 'dob', 'phone_no', 'city', 'state', 'zip_code', 'country'):
+        writer.writerow(user)
+    
+    response['Content-Disposotion'] = 'attachment; filename="user.csv"'
+    return response
+
+
+def author_detail(request):
+    user = request.user
+    return render(request, 'djangogirls/authordetail.html', {'user':user})
