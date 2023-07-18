@@ -6,6 +6,7 @@ from django.shortcuts import render, get_object_or_404
 from djangogirls.forms import PostForm, RegisterForm, LoginForm, UserForm, CommentForm
 from django.contrib.auth import login, authenticate
 from django.shortcuts import redirect
+from django.contrib.auth import logout
 # Create your views here.
 
 def post_list(request):
@@ -75,10 +76,13 @@ def post_new(request):
 def post_edit(request, slug):
     post = get_object_or_404(Post, slug=slug)
     if request.method == "POST":
-        form = PostForm(request.POST, request.FILES,instance=post)
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
+            for tag in request.POST.getlist('tags'):
+                # post.tags.add(tag)
+                post.tags.set(tag)
             post.published_date = timezone.now()
             post.save()
             return redirect('post_detail', slug=post.slug)
@@ -87,16 +91,17 @@ def post_edit(request, slug):
         return render(request, 'djangogirls/post_edit.html', {'form': form})
 
 def register(request):
+    form = RegisterForm()
     if request.method == 'POST':
         form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            print('Form valid')
+        return redirect('/login/')
     else:
-        form = RegisterForm()
-    return render(request, 'djangogirls/register.html', {'form':form})
+        return render(request, 'djangogirls/register.html', {'form':form})
 
 def login_page(request):
+    form = LoginForm()
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -109,10 +114,16 @@ def login_page(request):
             print('user',user)
             if user is not None:
                 login(request, user)
-        return render(request, 'djangogirls/login.html', {'form':form})
+        # return render(request, 'djangogirls/login.html', {'form':form})
+        return redirect('/')
     else:
-        form = LoginForm()
+        
         return render(request, 'djangogirls/login.html', {'form':form})
+
+def user_logout(request):
+    logout(request)
+    return render(request, 'djangogirls/post_list.html')
+
 
 def profile_view(request):
     user = request.user

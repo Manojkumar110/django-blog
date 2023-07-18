@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _ 
 from django.utils.html import mark_safe
-
+from django.core.validators import RegexValidator
 
 
 # # Create your models here.
@@ -34,6 +34,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     text = models.TextField()
     image = models.ImageField(upload_to = 'postimg/', blank=True)
+    feature_img = models.ImageField(upload_to = 'featureimg/', blank=True)
     category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL)
     tags = models.ManyToManyField(Tags)
     created_date = models.DateTimeField(default=timezone.now)
@@ -91,3 +92,31 @@ class Comment(models.Model):
 
 #    def __str__(self):
 #        return self.replier_name
+
+
+# class UserAlter(AbstractUser):
+#     GENDER_CHOICES = (
+#         ('M', 'Male'),
+#         ('F', 'Female'),
+#     )
+#     STATE_CHOICES = (
+#         ("rajasthan", "rajasthan"),
+#         ("punjab", "punjab"),
+#         ("uttarpradesh", "uttarpradesh"),  
+#     )
+#     username = models.CharField(max_length = 50, blank = True, null = True, unique = True)
+#     email = models.EmailField(_('email address'), unique = True)
+#     user_profile = models.ImageField(upload_to='avatar', blank=True, null=True)
+#     city = models.CharField(max_length=200)
+#     gender = models.CharField(max_length=200, choices = GENDER_CHOICES, default='')
+#     state = models.CharField(max_length=200, choices = STATE_CHOICES, default='')
+#     dob = models.DateField(null=True, blank=True)
+#     country = models.CharField(max_length=200)
+#     zip_code = models.IntegerField(null = True)
+#     phone_no = models.CharField(max_length=10, unique=True, validators=[RegexValidator(r'^\d{1,10}$')])
+    
+    # USERNAME_FIELD = 'email'
+    # REQUIRED_FIELDS = ['username', 'first_name']
+
+    # def __str__(self):
+    #     return "{}".format(self.email)
