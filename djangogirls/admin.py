@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from djangogirls.models import Post, Category, Tags, User, Comment
+from djangogirls.models import Post, Category, Tags, User, Comment, BlogComment
 from django.utils.html import format_html
-
+from import_export.admin import ExportActionMixin
 # Register your models here.
 
 class CategoryModelAdmin(admin.ModelAdmin):
@@ -33,7 +33,7 @@ class PostModelAdmin(admin.ModelAdmin):
         return format_html(f"<a href='/post/{obj.slug}'>{obj.title}</h1>")
 
 
-class UserModelAdmin(admin.ModelAdmin):
+class UserModelAdmin(ExportActionMixin, admin.ModelAdmin):
     def profile(self, obj):
         return format_html('<img src="{}" style="max-width:200px; max-height:200px"/>'.format(obj.user_profile.url))
 
@@ -54,4 +54,5 @@ admin.site.register(Category, CategoryModelAdmin)
 admin.site.register(Tags, TagsModelAdmin)
 admin.site.register(User, UserModelAdmin)
 admin.site.register(Comment, CommentModelAdmin)
+admin.site.register(BlogComment)
 

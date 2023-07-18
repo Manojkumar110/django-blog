@@ -7,6 +7,7 @@ from djangogirls.forms import PostForm, RegisterForm, LoginForm, UserForm, Comme
 from django.contrib.auth import login, authenticate
 from django.shortcuts import redirect
 from django.contrib.auth import logout
+from django.contrib import messages
 # Create your views here.
 
 def post_list(request):
@@ -18,18 +19,19 @@ def post_list(request):
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
     # comments = Comment.objects.filter(active=False)
-    comments = post.comments.filter(active=False)
+    comments = post.postcomment.filter(post=post)
     print('comments manoj', comments)
     if request.method == 'POST':
         comment_form  = CommentForm(request.POST)
         if comment_form.is_valid():
             # Assign the current post to the comment
             new_comment = comment_form.save(commit=False)
-            print('new_comment',new_comment)
+            # print('new_comment',new_comment)
             # Save the comment to the database
             new_comment.post = post
             new_comment.save()
-            return render(request, 'djangogirls/post_detail.html', {'post': post, 'comment_form':comment_form, 'comments':comments})
+            messages.success(request, 'Your comment has been posted seccessfully !')
+        return render(request, 'djangogirls/post_detail.html', {'post': post, 'comment_form':comment_form, 'comments':comments})
     else:
         comment_form = CommentForm()
         return render(request, 'djangogirls/post_detail.html', {'post': post, 'comment_form':comment_form, 'comments':comments})
