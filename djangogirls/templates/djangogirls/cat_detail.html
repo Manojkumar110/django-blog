@@ -1,0 +1,27 @@
+{% extends 'djangogirls/base.html' %}
+
+{% block content %}
+{% for post in posts %}
+<div class="col-sm-10 card mb-3">
+    {% if post.feature_img %}
+    <img src="{{post.feature_img.url}}" class="card-img-top" alt="..." style="height: 350px;">
+    {% else %}
+    <img src="" class="card-img-top" alt="pic">
+    {% endif %}
+    <div class="card-body">
+        <p class="card-text"><small
+                class="text-body-secondary">{{post.published_date}}</small>&ensp;&ensp;&ensp;&ensp;
+            <a href="{% url 'post_edit' slug=post.slug %}"><i class="bi bi-pencil-square"></i></a>
+        </p>
+        {% if post.author.user_profile %}
+        <img src="{{post.author.user_profile.url}}" alt="author" style="width: 30px;">
+        {% else %}
+        <img src="" alt="" style="width: 30px;">
+        {% endif %}
+        <a  href="/authordetail/?id={{post.author.id}}" style="text-decoration: none; color: gray;"><p class="card-text" >Author : {{post.author.first_name}}</p></a>
+        <h5 class="card-title">Title : {{post.title}}</h5>
+        <p class="card-text">{{post.text}}</p>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

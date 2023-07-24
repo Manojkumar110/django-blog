@@ -22,4 +22,6 @@ urlpatterns = [
     path('', include('djangogirls.urls')),
     path('polls/', include('djangopolls.urls')),
 ]
+
 admin.site.site_header = 'BLOG ADMIN'
+admin.site.index_title = "Welcome to Blog Portal"

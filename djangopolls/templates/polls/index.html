@@ -6,6 +6,13 @@
         <li><a href="{% url 'polls:detail' q.slug %}">{{ q.question_text }}</a></li>
         {% endfor %}
     </ul>
+    
     {% endif %}
+
+    <ul>
+       {% for q in question %}
+        <li><a href="{% url 'polls:detail' q.slug %}">{{ q.question_text }}</a></li>
+       {% endfor %}
+    </ul>
 {% endblock %}
 

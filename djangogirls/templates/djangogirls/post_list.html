@@ -3,15 +3,24 @@
 {% block content %}
 {% for post in posts %}
 <div class="card mb-3" style="max-width: 540px;">
+
+    <p>Category: {{post.category.name}} &nbsp; &nbsp; &nbsp; Tag :{% for tag in post.tags.all %}
+        {{tag.name}}
+        {% endfor %}</p>
     <div class="row g-0">
         <div class="col-md-4">
-            <img src="{{post.image.url}}" class="img-fluid rounded-start" alt="...">
-            <h5 class="card-title d-none"><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h5>
+            {% if post.image %}
+            <img src="{{post.image.url}}" class="card-img-top" alt="...">
+            {% else %}
+            <img src="" class="card-img-top" alt="pic">
+            {% endif %}
+
+            <h5 class="card-title d-none"><a href="">{{ post.title }}</a></h5>
         </div>
         <div class="col-md-8">
             <div class="card-body">
                 <p class="card-text"><small class="text-body-secondary">{{ post.published_date }}</small></p>
-                <h5 class="card-title"><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h5>
+                <h5 class="card-title"><a href="post/{{post.slug}}">{{ post.title }}</a></h5>
                 <p class="card-text">{{ post.text|truncatechars:30}}</p>
             </div>
         </div>

@@ -1,0 +1,12 @@
+{% extends 'djangogirls/base.html' %}
+
+{% block content %}
+<table>
+    {% for cat in category%}
+    <tr>
+       
+        <a href="{% url 'cat_detail' pk=cat.id %}"><p>{{cat.name}}</p></a>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
