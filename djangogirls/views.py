@@ -17,13 +17,11 @@ def post_list(request):
     return render(request, 'djangogirls/post_list.html', {'posts':posts, 'tags':tags})
 
 def post_new(request):
-    # post = get_object_or_404(Post, slug=slug)
     if request.method == 'POST':
         form =  PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
-            # post.slug=post.title
             post.published_date = timezone.now()
             post.save()
             for tag in request.POST.getlist('tags'):
@@ -34,24 +32,6 @@ def post_new(request):
         form = PostForm()
         return render(request, 'djangogirls/addnewpost.html', {'form': form})
 
-    # --------------------------------------------------
-    # if request.method == 'POST':
-    #     form =  PostForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         post = form.save(commit=False)
-    #         post.author = request.user
-    #         post.slug=post.title
-    #         post.published_date = timezone.now()
-    #         post.save()
-    #         for tag in request.POST.getlist('tags'):
-    #             posts = get_object_or_404(Post, slug=post.slug)
-    #             posts.tags.add(tag)
-    #             # posts.tags.add(tag)
-    #         return redirect('post_list')
-    # else:
-    #     form = PostForm()
-    #     return render(request, 'djangogirls/post_edit.html', {'form': form})
-    # --------------------------------------------------
 def post_edit(request, slug):
     post = get_object_or_404(Post, slug=slug)
     if request.method == "POST":
@@ -61,7 +41,6 @@ def post_edit(request, slug):
             post.author = request.user
             for tag in request.POST.getlist('tags'):
                 post.tags.add(tag)
-                # post.tags.set(tag)
             post.published_date = timezone.now()
             post.save()
             return redirect('post_detail', slug=post.slug)
@@ -93,17 +72,6 @@ def login_page(request):
         if form.is_valid():
             name = form.cleaned_data['username']
             password = form.cleaned_data['password1']
-            # if '@' in name:
-            #     user = authenticate(
-            #         email=form.cleaned_data['username'],
-            #         password=form.cleaned_data['password1'],
-            #     )
-            # else:
-            #     usr_obj = User.objects.get(username=name).username
-            #     user = authenticate(
-            #         username=User.objects.get(username=usr_obj),
-            #         password=form.cleaned_data['password1'],
-            #     )
             try:
                 try:
                     user = authenticate(
@@ -160,49 +128,30 @@ def export(request):
 
 
 def author_detail(request):
-    # user = request.user
     userid = request.GET.get('id',)
-    print(userid)
-    # print('user id', id)
     postauthor = User.objects.get(id=userid)
-    # print(user)
     return render(request, 'djangogirls/authordetail.html', {'postauthor':postauthor})
 
 
 
 def post_detail(request, slug):
-    # get post object
     post = get_object_or_404(Post, slug=slug)
-    # user = User.objects.filter(post=post)
-    # print(user)
-    # list of active parent comments
     comments = post.comments.filter(active=True, parent__isnull=True).order_by('-created')
     if request.method == 'POST':
-        # comment has been added
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
             parent_obj = None
-            
-            # get parent comment id from hidden input
             try:
-                # id integer e.g. 15
                 parent_id = int(request.POST.get('parent_id'))
             except:
                 parent_id = None
-            # if parent_id has been submitted get parent_obj id
             if parent_id:
                 parent_obj = Comment.objects.get(id=parent_id)
-                # if parent object exist
                 if parent_obj:
-                    # create replay comment object
                     replay_comment = comment_form.save(commit=False)
-                    # assign parent_obj to replay comment
                     replay_comment.parent = parent_obj
-            # normal comment
-            # create comment object but do not save to database
             new_comment = comment_form.save(commit=False)
             
-            # assign ship to the comment
             new_comment.post = post
             new_comment.save()
             return redirect(f'/post/{post.slug}')
@@ -230,4 +179,3 @@ def catDetail(request, pk):
         'posts':posts,
     }
     return render(request, 'djangogirls/cat_detail.html', context)
-    # pass

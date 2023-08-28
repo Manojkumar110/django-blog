@@ -20,7 +20,6 @@ class TagsModelAdmin(admin.ModelAdmin):
 
 
 class PostModelAdmin(admin.ModelAdmin):
-    # change_form_template = 'admin/change_form_object_tools.html'
     def post_title(self, obj):
         return format_html(f"<a href='/post/{obj.slug}'>{obj.title}</a>")
 

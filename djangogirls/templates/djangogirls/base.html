@@ -18,11 +18,8 @@
     <header class="page-header">
         <div class="container d-flex">
             <h1><a href="/">Django Girls Blog<a></h1> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            <!-- <h1><a href="polls/index">Django polls<a></h1> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -->
                 <h1><a href="{% url 'polls:homepage' %}">Django polls<a></h1> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
             <h1><a href="{% url 'post_category' %}">post category<a></h1> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-            <!-- <h1><a href="#">post tags<a></h1> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -->
-            <!-- <h1><a href="/"> register <a></h1> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; -->
             {% if user.is_authenticated %}
             <h1><a href="{% url 'userprofileview' %}">{{user.first_name}}<a></h1> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
             <h1><a href="{% url 'userlogout' %}">logout<a></h1> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
@@ -32,9 +29,6 @@
             <h1><a href="/login/">login<a></h1> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
             {% endif %}
         </div>
-        <!-- <a href="{% url 'post_new' %}" class="top-menu">
-            <i class="bi bi-plus-lg"></i>
-        </a> -->
     </header>
     <main class="container">
         <div class="row">

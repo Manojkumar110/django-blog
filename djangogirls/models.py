@@ -90,7 +90,6 @@ class Comment(models.Model):
     parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
 
     class Meta:
-        # sort comments in chronological order by default
         ordering = ('created',)
 
     def __str__(self):
