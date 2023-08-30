@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('djangogirls.urls')),
     path('polls/', include('djangopolls.urls')),
+    path('api/v1/', include('restapi.urls')),
 ]
 
 admin.site.site_header = 'BLOG ADMIN'

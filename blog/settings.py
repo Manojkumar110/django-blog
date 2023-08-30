@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'djangogirls',
     'djangopolls',
     'import_export',
+    'rest_framework',
     
 ]
 
