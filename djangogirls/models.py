@@ -17,6 +17,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(self.name)
+    #     super(Post, self).save(*args, **kwargs)
 
 class Tags(models.Model):
     name = models.CharField(max_length=200)
@@ -26,6 +30,10 @@ class Tags(models.Model):
 
     def __str__(self):
         return self.name
+    
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(self.name)
+    #     super(Post, self).save(*args, **kwargs)
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE)
