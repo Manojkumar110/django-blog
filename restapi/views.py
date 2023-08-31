@@ -19,7 +19,7 @@ class PostListAPIView(ListAPIView):
     serializer_class = PostSerializer
 
 class PostCreateAPIView(CreateAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
@@ -44,7 +44,11 @@ class TagsApiView(RetrieveUpdateDestroyAPIView):
     queryset = Tags.objects.all()
     serializer_class = TagSerializer
 
-class UserApiView(CreateAPIView):
+class UserListApiView(ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserApiView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
