@@ -1,6 +1,6 @@
 from djangogirls .models import Post, Category, Tags, Comment, User
 from restapi .serializers import PostSerializer, CategorySerializre, TagSerializer, UserSerializer, CommentSerializer
-from rest_framework.permissions import IsAuthenticated
+# from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
@@ -13,7 +13,7 @@ class PostAPIView(viewsets.ModelViewSet):
     http_method_names = ["get", "put", "delete", "patch", "post"]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['title',]
-    search_fields = ['title',]
+    search_fields = ['^title',]
 
 
 class CategoryApiView(viewsets.ModelViewSet):
