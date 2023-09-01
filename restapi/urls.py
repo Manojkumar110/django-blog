@@ -2,12 +2,6 @@ from django.urls import path, include
 from restapi import views
 
 
-# urlpatterns = [
-#     path('post/', views.PostList.as_view(), name='post'),
-#     path('post/<int:pk>/', views.PostRetrieveUpdateDestroy.as_view(), name='post'),
-# ]
-
-
 urlpatterns = [
     path('post/', views.PostListAPIView.as_view(), name='post'),
     path('post/create/', views.PostCreateAPIView.as_view(), name='postcreate'),
