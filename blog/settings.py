@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'djangopolls',
     'import_export',
     'rest_framework',
+    'django_filters',
     
 ]
 
