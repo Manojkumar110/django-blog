@@ -1,26 +1,27 @@
 from rest_framework import serializers
 from djangogirls .models import Post, Category, Tags, User, Comment
-from django.contrib.auth import authenticate
-
-
-class PostSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Post
-        fields = ["id", "author", "title", "text", "image",
-                  "feature_img", "category", "tags"]
+# from django.contrib.auth import authenticate
 
 
 class CategorySerializre(serializers.ModelSerializer):
+   
     class Meta:
         model = Category
         fields = ["id", "name", "image", "description", "slug"]
-
 
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tags
         fields = ["id", "name", "image", "description", "slug"]
 
+
+class PostSerializer(serializers.ModelSerializer):
+    category = CategorySerializre(many=False)
+    tags = TagSerializer(many=True)
+    class Meta:
+        model = Post
+        fields = ["id", "author", "title", "text", "image",
+                  "feature_img", "category", "tags"]
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(

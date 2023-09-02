@@ -12,7 +12,7 @@ class PostAPIView(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     http_method_names = ["get", "put", "delete", "patch", "post"]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['title',]
+    filterset_fields = ['title', 'category']
     search_fields = ['^title',]
 
 
@@ -20,12 +20,18 @@ class CategoryApiView(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializre
     http_method_names = ["get", "put", "delete", "patch", "post"]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['name',]
+    search_fields = ['^name',]
 
 
 class TagsApiView(viewsets.ModelViewSet):
     queryset = Tags.objects.all()
     serializer_class = TagSerializer
     http_method_names = ["get", "put", "delete", "patch", "post"]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['name',]
+    search_fields = ['^name',]
 
 
 class UserApiView(viewsets.ModelViewSet):
