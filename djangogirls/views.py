@@ -5,6 +5,7 @@ from djangogirls.forms import PostForm, RegisterForm, LoginForm, UserForm, Comme
 from django.contrib.auth import login, authenticate
 from django.shortcuts import redirect
 from django.contrib.auth import logout
+from django.contrib import messages
 
 
 # Create your views here.
@@ -69,7 +70,6 @@ def register(request):
 
 
 def login_page(request):
-    form = LoginForm()
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -81,21 +81,25 @@ def login_page(request):
                         username=User.objects.get(username=name),
                         password=form.cleaned_data['password1'],
                     )
-                    print('try obj', user)
                 except:
                     user = authenticate(
                         email=User.objects.get(email__exact=name),
                         password=form.cleaned_data['password1'],
                     )
-                    print('except obj', user)
             except Exception as e:
+                messages.add_message(request, messages.SUCCESS, 'Please Enter Valid info')
                 return render(request, 'djangogirls/login.html', {'form': form})
             if user is not None:
                 login(request, user)
+                messages.add_message(request, messages.SUCCESS, 'User Login Success')
                 return redirect('/')
-            return render(request, 'djangogirls/login.html', {'form': form})
+            # else:
+            #     form = LoginForm()
+            #     return render(request, 'djangogirls/login.html', {'form': form})
     else:
+        form = LoginForm()
         return render(request, 'djangogirls/login.html', {'form': form})
+    return render(request, 'djangogirls/login.html', {'form': form})
 
 
 def user_logout(request):

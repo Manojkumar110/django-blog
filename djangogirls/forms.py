@@ -24,9 +24,6 @@ class RegisterForm(UserCreationForm):
         fields = ['user_profile', 'first_name', 'username', 'email',
                   'gender', 'dob', 'phone_no', 'city', 'state', 'zip_code', 'country']
     
-    # def clean_phone_no(self):
-    #     phone_no = re.
-
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Please Enter email or username')
