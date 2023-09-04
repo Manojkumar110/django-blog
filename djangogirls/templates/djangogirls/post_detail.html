@@ -9,10 +9,12 @@
         <img src="" class="card-img-top" alt="pic">
         {% endif %}
         <div class="card-body">
+            {% if request.user.username == post.author.username %}
             <p class="card-text"><small
                     class="text-body-secondary">{{post.published_date}}</small>&ensp;&ensp;&ensp;&ensp;
                 <a href="{% url 'post_edit' slug=post.slug %}"><i class="bi bi-pencil-square"></i></a>
             </p>
+            {% endif %}
             {% if post.author.user_profile %}
             <img src="{{post.author.user_profile.url}}" alt="author" style="width: 30px;">
             {% else %}

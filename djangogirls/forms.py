@@ -2,13 +2,14 @@ from django import forms
 from djangogirls.models import Post, User, Tags, Comment
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import fields
+# import re
 
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ('title',  'text', 'image', 'feature_img',
-                  'category', 'tags', 'created_date')
+                  'category', 'tags',)
 
 
 class RegisterForm(UserCreationForm):
@@ -16,11 +17,15 @@ class RegisterForm(UserCreationForm):
     password2 = forms.CharField(
         label='Confirm Password', widget=forms.PasswordInput)
     dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    # phone_no = forms.IntegerField(max_length=10, label='Phone', widget=forms.IntegerField(attrs={'min':'9999999999'}))
 
     class Meta:
         model = User
         fields = ['user_profile', 'first_name', 'username', 'email',
                   'gender', 'dob', 'phone_no', 'city', 'state', 'zip_code', 'country']
+    
+    # def clean_phone_no(self):
+    #     phone_no = re.
 
 
 class LoginForm(forms.Form):
