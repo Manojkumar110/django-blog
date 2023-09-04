@@ -1,5 +1,3 @@
-import csv
-from django.http import HttpResponse
 from djangogirls.models import Post, User, Tags, Comment, Category, Tags
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
@@ -7,18 +5,20 @@ from djangogirls.forms import PostForm, RegisterForm, LoginForm, UserForm, Comme
 from django.contrib.auth import login, authenticate
 from django.shortcuts import redirect
 from django.contrib.auth import logout
-from django.contrib import messages
-from django.http import HttpResponseRedirect
+
+
 # Create your views here.
+
 
 def post_list(request):
     posts = Post.objects.all().order_by('-published_date')
-    tags = Tags.objects.all() 
-    return render(request, 'djangogirls/post_list.html', {'posts':posts, 'tags':tags})
+    tags = Tags.objects.all()
+    return render(request, 'djangogirls/post_list.html', {'posts': posts, 'tags': tags})
+
 
 def post_new(request):
     if request.method == 'POST':
-        form =  PostForm(request.POST, request.FILES)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
@@ -31,6 +31,7 @@ def post_new(request):
     else:
         form = PostForm()
         return render(request, 'djangogirls/addnewpost.html', {'form': form})
+
 
 def post_edit(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -48,6 +49,7 @@ def post_edit(request, slug):
         form = PostForm(instance=post)
         return render(request, 'djangogirls/post_edit.html', {'form': form})
 
+
 def register(request):
     form = RegisterForm()
     if request.method == 'POST':
@@ -55,15 +57,16 @@ def register(request):
         if form.is_valid():
             form.save()
             user = authenticate(
-                    email=form.cleaned_data['email'],
-                    password=form.cleaned_data['password1'],
-                )
+                email=form.cleaned_data['email'],
+                password=form.cleaned_data['password1'],
+            )
             if user is not None:
                 login(request, user)
                 return redirect('/')
-        return render(request, 'djangogirls/register.html', {'form':form})
+        return render(request, 'djangogirls/register.html', {'form': form})
     else:
-        return render(request, 'djangogirls/register.html', {'form':form})
+        return render(request, 'djangogirls/register.html', {'form': form})
+
 
 def login_page(request):
     form = LoginForm()
@@ -77,7 +80,7 @@ def login_page(request):
                     user = authenticate(
                         username=User.objects.get(username=name),
                         password=form.cleaned_data['password1'],
-                        )
+                    )
                     print('try obj', user)
                 except:
                     user = authenticate(
@@ -86,13 +89,14 @@ def login_page(request):
                     )
                     print('except obj', user)
             except Exception as e:
-                return render(request, 'djangogirls/login.html', {'form':form})
+                return render(request, 'djangogirls/login.html', {'form': form})
             if user is not None:
                 login(request, user)
                 return redirect('/')
-            return render(request, 'djangogirls/login.html', {'form':form})
+            return render(request, 'djangogirls/login.html', {'form': form})
     else:
-        return render(request, 'djangogirls/login.html', {'form':form})
+        return render(request, 'djangogirls/login.html', {'form': form})
+
 
 def user_logout(request):
     logout(request)
@@ -101,7 +105,7 @@ def user_logout(request):
 
 def profile_view(request):
     user = request.user
-    return render(request, 'djangogirls/userdetail.html', {'user':user})
+    return render(request, 'djangogirls/userdetail.html', {'user': user})
 
 
 def profile_update(request, pk):
@@ -115,28 +119,19 @@ def profile_update(request, pk):
             return redirect('userprofileview')
     else:
         form = UserForm(instance=request.user)
-        return render(request, 'djangogirls/updateprofile.html', {'form':form})
-
-def export(request):
-    response = HttpResponse(content_type='text/csv')
-    writer = csv.writer(response)
-    writer.writerow(['first_name', 'user_profile', 'email', 'gender', 'dob', 'phone_no', 'city', 'state', 'zip_code', 'country'])
-    for user in User.objects.all().values_list('first_name', 'user_profile', 'email', 'gender', 'dob', 'phone_no', 'city', 'state', 'zip_code', 'country'):
-        writer.writerow(user)
-    response['Content-Disposotion'] = 'attachment; filename="user.csv"'
-    return response
+        return render(request, 'djangogirls/updateprofile.html', {'form': form})
 
 
 def author_detail(request):
     userid = request.GET.get('id',)
     postauthor = User.objects.get(id=userid)
-    return render(request, 'djangogirls/authordetail.html', {'postauthor':postauthor})
-
+    return render(request, 'djangogirls/authordetail.html', {'postauthor': postauthor})
 
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    comments = post.comments.filter(active=True, parent__isnull=True).order_by('-created')
+    comments = post.comments.filter(
+        active=True, parent__isnull=True).order_by('-created')
     if request.method == 'POST':
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
@@ -151,7 +146,7 @@ def post_detail(request, slug):
                     replay_comment = comment_form.save(commit=False)
                     replay_comment.parent = parent_obj
             new_comment = comment_form.save(commit=False)
-            
+
             new_comment.post = post
             new_comment.save()
             return redirect(f'/post/{post.slug}')
@@ -166,9 +161,8 @@ def post_detail(request, slug):
 
 def postCategory(request):
     cat = Category.objects.all()
-    context = {'category':cat}
+    context = {'category': cat}
     return render(request, 'djangogirls/post_cat.html', context)
-
 
 
 def catDetail(request, pk):
@@ -176,6 +170,6 @@ def catDetail(request, pk):
     posts = Post.objects.filter(category=cat)
     print(posts)
     context = {
-        'posts':posts,
+        'posts': posts,
     }
     return render(request, 'djangogirls/cat_detail.html', context)
