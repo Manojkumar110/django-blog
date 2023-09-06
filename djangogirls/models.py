@@ -5,9 +5,7 @@ from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from django.utils.text import slugify
-# from django.core.validators import MaxValueValidator
-from django.core.validators import MinValueValidator, MaxValueValidator
-# from django.core.validators import RegexValidator
+from django.core.validators import MaxValueValidator
 
 
 # # Create your models here.
@@ -78,7 +76,6 @@ class User(AbstractUser):
     country = models.CharField(max_length=200)
     zip_code = models.IntegerField(null=True)
     phone_no = models.PositiveIntegerField(validators=[MaxValueValidator(9999999999)])
-    # phone_no = models.CharField(max_length=10)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name']
 

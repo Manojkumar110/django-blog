@@ -17,7 +17,6 @@ class RegisterForm(UserCreationForm):
     password2 = forms.CharField(
         label='Confirm Password', widget=forms.PasswordInput)
     dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
-    # phone_no = forms.IntegerField(max_length=10, label='Phone', widget=forms.IntegerField(attrs={'min':'9999999999'}))
 
     class Meta:
         model = User

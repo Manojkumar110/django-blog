@@ -93,9 +93,6 @@ def login_page(request):
                 login(request, user)
                 messages.add_message(request, messages.SUCCESS, 'User Login Success')
                 return redirect('/')
-            # else:
-            #     form = LoginForm()
-            #     return render(request, 'djangogirls/login.html', {'form': form})
     else:
         form = LoginForm()
         return render(request, 'djangogirls/login.html', {'form': form})
