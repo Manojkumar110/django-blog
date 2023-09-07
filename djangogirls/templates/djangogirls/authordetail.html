@@ -1,16 +1,18 @@
 {% extends 'djangogirls/base.html' %}
 {% block content %}
 <h2>Author Detail</h2>
-{%if postauthor.user_profile %}
+{% if postauthor.user_profile %}
 <img src="{{postauthor.user_profile.url}}" alt="pic">
 {% endif %}
 <p>Name : {{postauthor.first_name}}</p>
 <p>Email : {{postauthor.email}}</p>
 <p>Gender : {{postauthor.gender}}</p>
+{% if postauthor.dob %}
 <p>DOB : {{postauthor.dob}}</p>
+{% endif %}
 <p>Phone Number : {{postauthor.phone_no}}</p>
 <p>City : {{postauthor.city}}</p>
 <p>State : {{postauthor.state}}</p>
 <p>Zip Code : {{postauthor.zip_code}}</p>
-<p>Zip Code : {{postauthor.country}}</p>
+<p>country : {{postauthor.country}}</p>
 {% endblock %}
