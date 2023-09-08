@@ -7,7 +7,7 @@ from django.urls import reverse
 
 class QuestionModelTest(TestCase):
     def test_was_published_recently_with_future_question(self):
-        time = timezone.now() + datetimedelta(days=30)
+        time = timezone.now() + timezone.datetimedelta(days=30)
         future_question = Question(pub_date=time)
         self.assertIs(future_question.was_published_recently(), False)
     
@@ -24,7 +24,7 @@ class QuestionModelTest(TestCase):
 
 
 def create_question(question_text, days):
-    time = timezone.now() + datetimedelta(days=days)
+    time = timezone.now() + timezone.datetimedelta(days=days)
     return Question.objects.create(question_text=question_text, pub_date=time)
 
 

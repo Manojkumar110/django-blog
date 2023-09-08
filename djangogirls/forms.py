@@ -1,8 +1,6 @@
 from django import forms
-from djangogirls.models import Post, User, Tags, Comment
+from djangogirls.models import Post, User, Comment
 from django.contrib.auth.forms import UserCreationForm
-from django.db.models import fields
-# import re
 
 
 class PostForm(forms.ModelForm):
@@ -22,7 +20,7 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ['user_profile', 'first_name', 'username', 'email',
                   'gender', 'dob', 'phone_no', 'city', 'state', 'zip_code', 'country']
-    
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Please Enter email or username')

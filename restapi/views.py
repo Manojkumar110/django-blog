@@ -1,6 +1,5 @@
 from djangogirls .models import Post, Category, Tags, Comment, User
 from restapi .serializers import PostSerializer, CategorySerializre, TagSerializer, UserSerializer, CommentSerializer
-# from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
